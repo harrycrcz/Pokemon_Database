@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Battles</title>
+    <style>
+        /* Navbar styles */
+        .navbar {
+            overflow: hidden;
+            background-color: #333;
+        }
+
+        .navbar a {
+            float: left;
+            display: block;
+            color: #f2f2f2;
+            text-align: center;
+            padding: 14px 16px;
+            text-decoration: none;
+        }
+
+        .navbar a:hover {
+            background-color: #ddd;
+            color: black;
+        }
+
+        /* Table styles */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        table,
+        th,
+        td {
+            border: 1px solid black;
+        }
+
+        th,
+        td {
+            padding: 15px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        /* Button styles */
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            font-size: 16px;
+            color: white;
+            background-color: #4CAF50;
+            border: none;
+            border-radius: 5px;
+            text-decoration: none;
+        }
+
+        .btn:hover {
+            background-color: #45a049;
+        }
+
+        /* Form styles */
+        .form-container {
+            margin: 20px 0;
+        }
+
+        .form-container select,
+        .form-container input[type="text"],
+        .form-container input[type="date"] {
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            width: 80%;
+            margin-bottom: 10px;
+        }
+
+        .form-container input[type="submit"] {
+            padding: 10px 20px;
+            font-size: 16px;
+            color: white;
+            background-color: #4CAF50;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .form-container input[type="submit"]:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navbar -->
+    <div class="navbar">
+        <a href="/">Home</a>
+        <a href="/pokemon">Pokemon</a>
+        <a href="/trainers">Trainers</a>
+        <a href="/teams">Teams</a>
+        <a href="/battles">Battles</a>
+    </div>
+
+    <!-- Main content -->
+    <h1>Battles</h1>
+
+    <!-- Displaying the list of battles -->
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Team 1</th>
+                <th>Team 2</th>
+                <th>Date</th>
+                <th>City</th>
+                <th>Winner</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for battle in battles %}
+            <tr>
+                <td>{{ battle[0] }}</td>
+                <td>{{ battle[1] }}</td>
+                <td>{{ battle[2] }}</td>
+                <td>{{ battle[3] }}</td>
+                <td>{{ battle[4] }}</td>
+                <td>
+                    {% for team in teams %}
+                    {% if team[0] == battle[5] %}
+                    {{ team[1] }}
+                    {% endif %}
+                    {% endfor %}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <!-- Form to add new battle -->
+    <div class="form-container">
+        <form method="post" action="/battles">
+            <select name="team1" required>
+                <option value="" disabled selected>Select Team 1</option>
+                {% for team in teams %}
+                <option value="{{ team[0] }}">{{ team[1] }}</option>
+                {% endfor %}
+            </select>
+
+            <select name="team2" required>
+                <option value="" disabled selected>Select Team 2</option>
+                {% for team in teams %}
+                <option value="{{ team[0] }}">{{ team[1] }}</option>
+                {% endfor %}
+            </select>
+
+            <select name="winner" required>
+                <option value="" disabled selected>Select Winner</option>
+                {% for team in teams %}
+                <option value="{{ team[0] }}">{{ team[1] }}</option>
+                {% endfor %}
+            </select>
+
+            <input type="text" name="city" placeholder="City" required>
+            <input type="date" name="date" required>
+            <input type="submit" value="Add Battle">
+        </form>
+    </div>
+</body>
+
+</html>
